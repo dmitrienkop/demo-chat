@@ -28,11 +28,7 @@ export const Feed = ({ activeUserUID, items }: IFeedProps) => {
                     : <span className={css.bubble}>{message}</span>}
 
                 {datetime
-                    ? <span
-                        className={css.datetime}
-                    >
-                        {datetime}
-                    </span>
+                    ? <span className={css.datetime}>{datetime}</span>
                     : null}
             </div>)}
             <div ref={endRef} />

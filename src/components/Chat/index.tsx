@@ -45,11 +45,13 @@ export const Chat = () => {
         return <Loader />;
     }
 
+    const userStatus = `Online - Last seen ${formatDateTime(user.metadata.lastSignInTime)}`;
+
     return <div className={css.container}>
         <header className={css.header}>
             <Header
                 name={user.email}
-                status={`Online - Last seen ${formatDateTime(user.metadata.lastSignInTime)}`}
+                status={userStatus}
                 onSignOut={onSignOut}
             />
         </header>

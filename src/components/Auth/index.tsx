@@ -12,15 +12,15 @@ export const Auth = () => {
     const location = useLocation();
     const isReg = location.pathname === REG_ROUTE;
     const { auth } = useContext(AppContext);
-    const [authFormState, setAuthFormState] = useState<IAuthFormState>(INITIAL_AUTH_FORM_STATE);
-    const [authFormValidationState, setAuthFormValidationState] = useState<IAuthFormValidationState>(INITIAL_AUTH_FORM_VALIDATION_STATE);
+    const [formState, setFormState] = useState<IAuthFormState>(INITIAL_AUTH_FORM_STATE);
+    const [validationState, setValidationState] = useState<IAuthFormValidationState>(INITIAL_AUTH_FORM_VALIDATION_STATE);
     const [error, setError] = useState<string|null>(null);
 
     const createUser = async () => {
         try {
             await auth.createUserWithEmailAndPassword(
-                authFormState[EAuthFormField.Email],
-                authFormState[EAuthFormField.Password]
+                formState[EAuthFormField.Email],
+                formState[EAuthFormField.Password]
             );
         } catch (error: any) {
             setError(error.message);
@@ -30,8 +30,8 @@ export const Auth = () => {
     const signIn = async () => {
         try {
             await auth.signInWithEmailAndPassword(
-                authFormState[EAuthFormField.Email],
-                authFormState[EAuthFormField.Password]
+                formState[EAuthFormField.Email],
+                formState[EAuthFormField.Password]
             );
         } catch (error: any) {
             setError(error.message);
@@ -40,19 +40,19 @@ export const Auth = () => {
 
     const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const isValidForm = authFormValidationState[EAuthFormField.Email]
-            && authFormValidationState[EAuthFormField.Password];
+        const isValidForm = validationState[EAuthFormField.Email]
+            && validationState[EAuthFormField.Password];
         if (isValidForm) {
             return isReg ? createUser() : signIn();
         }
     };
 
-    const validateForm = (type: EAuthFormField) => {
+    const validateForm = (type: EAuthFormField, value: string) => {
         if (type === EAuthFormField.Email) {
-            setAuthFormValidationState({
-                ...authFormValidationState,
+            setValidationState({
+                ...validationState,
                 [EAuthFormField.Email]: Boolean(
-                    String(authFormState[EAuthFormField.Email])
+                    String(value)
                         .toLowerCase()
                         .match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
                 )
@@ -60,20 +60,21 @@ export const Auth = () => {
         }
 
         if (type === EAuthFormField.Password) {
-            setAuthFormValidationState({
-                ...authFormValidationState,
-                [EAuthFormField.Password]: Boolean(authFormState[EAuthFormField.Password])
+            setValidationState({
+                ...validationState,
+                [EAuthFormField.Password]: Boolean(value)
             });
         }
     };
 
-    const onChange = (type: EAuthFormField) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        setAuthFormState({
-            ...authFormState,
-            [type]: event.target.value
-        });
-        validateForm(type);
-    };
+    const onChange = (type: EAuthFormField) =>
+        (event: React.ChangeEvent<HTMLInputElement> | React.ClipboardEvent<HTMLInputElement>) => {
+            setFormState({
+                ...formState,
+                [type]: event.currentTarget.value
+            });
+            validateForm(type, event.currentTarget.value);
+        };
 
     return <form className={css.auth} onSubmit={onSubmit}>
         <h2 className={css.title}>
@@ -81,20 +82,39 @@ export const Auth = () => {
         </h2>
 
         <label className={classNames(css.field, {
-            [css.hasError]: authFormValidationState[EAuthFormField.Email] === false
+            [css.hasError]: validationState[EAuthFormField.Email] === false
         })}>
             <span className={css.label}>Your email</span>
-            <input className={css.input} type="text" name="email" onChange={onChange(EAuthFormField.Email)} />
+            <input
+                className={css.input}
+                type="text"
+                name="email"
+                onChange={onChange(EAuthFormField.Email)}
+                onPaste={onChange(EAuthFormField.Email)}
+                onCut={onChange(EAuthFormField.Email)}
+            />
         </label>
         <label className={classNames(css.field, {
-            [css.hasError]: authFormValidationState[EAuthFormField.Password] === false
+            [css.hasError]: validationState[EAuthFormField.Password] === false
         })}>
             <span className={css.label}>Password</span>
-            <input className={css.input} type="password" name="password" onChange={onChange(EAuthFormField.Password)} />
+            <input
+                className={css.input}
+                type="password"
+                name="password"
+                onChange={onChange(EAuthFormField.Password)}
+                onPaste={onChange(EAuthFormField.Password)}
+                onCut={onChange(EAuthFormField.Password)}
+            />
         </label>
 
-        {error ? <span className={css.error}>{error}</span> : null}
+        {error
+            ? <span className={css.error}>{error}</span>
+            : null}
 
-        <button type="submit" className={css.submit} />
+        <button
+            type="submit"
+            className={css.submit}
+        />
     </form>;
 };
