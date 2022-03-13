@@ -1,0 +1,81 @@
+.auth {
+    background: #fff;
+    box-shadow: 0px 4px 5px 2px rgba(121, 197, 239, 0.38);
+    box-sizing: border-box;
+    border-radius: 25px;
+    font-family: 'Inter';
+    left: 50%;
+    padding: 170px 157px;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 740px;
+}
+
+.title,
+.field {
+    display: block;
+    margin: 0 0 65px;
+}
+
+.title {
+    color: #000;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 36px;
+}
+
+.label,
+.error {
+    display: block;
+    line-height: 19px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.label {
+    color: #696f79;
+    margin-bottom: 14px;
+}
+
+.error {
+    color: red;
+}
+
+.input {
+    border: 1px solid #8692a6;
+    box-sizing: border-box;
+    border-radius: 6px;
+    color: #494949;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    height: 64px;
+    padding: 22px 30px;
+    width: 100%;
+}
+
+.input:focus {
+    border-color: #1565d8;
+    box-shadow: 0 4px 10px 3px rgba(0, 0, 0, .11);
+    outline: none;
+}
+
+.field.hasError .label,
+.field.hasError .input {
+    color: red;
+}
+
+.field.hasError .input {
+    border-color: red;
+}
+
+.field.hasError .input:focus {
+    box-shadow: 0 4px 10px 3px rgba(250, 0, 0, .11);
+}
+
+.submit {
+    display: none;
+}

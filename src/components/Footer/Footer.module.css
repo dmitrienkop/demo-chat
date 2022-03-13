@@ -1,0 +1,55 @@
+.newMessage {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 55px;
+    position: relative;
+}
+
+.attach {
+    bottom: 21px;
+    cursor: pointer;
+    left: 38px;
+    position: absolute;
+}
+
+.file {
+    height: 0;
+    opacity: 0;
+    width: 0;
+}
+
+.newText {
+    background: rgba(239, 246, 252, .87);
+    border: none;
+    border-radius: 25px;
+    box-sizing: border-box;
+    flex-grow: 1;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 24px;
+    height: 79px;
+    letter-spacing: .05em;
+    line-height: 28px;
+    margin-right: 30px;
+    padding: 27px 27px 26px 103px;
+}
+.newText:focus {
+    outline: none;
+}
+.newText:placeholder-shown {
+    text-overflow: ellipsis;
+}
+
+.submit {
+    background: #6e00ff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    height: 78px;
+    width: 78px;
+}
+
+.submit:disabled {
+    background: #e7e7e7;
+}
